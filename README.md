@@ -1,4 +1,9 @@
-## Install Dependencies
+## 📌 Introduction
+
+This repository provides a practical implementation of **token pruning on historical screenshots** for **GUI Visual Agent** tasks, with the goal of **reducing computational cost** during inference/evaluation.  
+Our pruning is applied **only to historical screenshots**; we do **not** prune the **current screenshot**, **historical actions**, or **user instructions**.
+
+## ⚙️ Install Dependencies
 
 ### Python
 
@@ -10,14 +15,16 @@ This project uses **Python 3.10**.
 python -m pip install -r requirements.txt
 ```
 
-If you are using the Qwen2.5-VL + FlashAttention2 setup, we recommend installing `flash-attn` from a pre-built wheel (download it separately and install it via `pip install /path/to/flash_attn-*.whl`) for faster and more stable installation.
+> Note: We intentionally do **not** include `flash-attn` in `requirements.txt`.  
+> Please download the wheel that matches your local **PyTorch** and **CUDA** versions from:  
+> https://github.com/Dao-AILab/flash-attention/releases  
+> and then install it with `pip` in your environment. This is usually faster and more stable than building from source during dependency installation.
 
+## 🚀 Core Contributions in this repo
 
-## Core modifications in this repo
+The main contributions of this repository center on **history-screenshot token pruning during evaluation**.
 
-The main contribution of this repository is **history-screenshot token pruning during evaluation**.
-
-### 1) Evaluation scripts extended with pruning controls
+### 🧪 1) Evaluation scripts extended with pruning controls
 
 The following evaluation scripts are extended to support pruning historical visual tokens:
 
@@ -28,36 +35,41 @@ The following evaluation scripts are extended to support pruning historical visu
 
 These scripts add CLI switches and runtime hooks for multiple **training-free** pruning strategies on historical screenshots, including:
 
-- FastV
-- PDrop
-- DivPrune
-- Sobel (edge-only)
+- FastV (ECCV24)
+- SparseVLM (ICML25)
+- DART (EMNLP25)
+- PDrop (CVPR2025)
+- DivPrune (CVPR25)
+- Sobel (retain only foreground or background tokens)
 - Random pruning
-- SparseVLM
-- DART
 
-Most strategies support per-history-image keep ratios (from most recent history image to older ones), making it possible to allocate more tokens to recent context and fewer tokens to distant history.
 
-### 2) Model-side pruning implementation
+All strategies support per-history-image keep ratios (from most recent history image to older ones), making it possible to allocate more tokens to recent context and fewer tokens to distant history.
+
+
+To avoid conflicting pruning paths in a single run, enable **one pruning method at a time** in evaluation.
+
+### 🧠 2) Model-side pruning implementation
 
 The pruning logic is implemented in model internals:
 
 - `src/Qwen2/model_file/LLM_compression_v2_action/modeling_qwen2vl.py`
 - `src/Qwen2_5/model_file/LLM_compression_v2_5_action/modeling_qwen2_5_vl.py`
 
-Both files include:
+If you want to modify existing pruning methods or add your own pruning strategy, these are the primary files to edit and extend.
 
-- pruning enable flags (e.g., `enable_fastv_pruning`, `enable_pdrop_pruning`, `enable_DivPrune_pruning`, `enable_dart_pruning`, etc.)
-- strategy-specific keep-ratio settings (e.g., `*_keep_ratios`)
-- keep-mask construction for history-image token segments
-- integration into decoding at `drop_k` layers
+### 📊 3) Sobel token statistics utility
 
+We provide `dataset_sobel_stats.py` to compute **dataset-level Sobel edge-token statistics** across GUI screenshots.
 
-### 3) Reproducibility note
+Common arguments:
+- `--dataset`: `aitw | odyssey | mind2web | androidcontrol`
+- `--data-root`: image root path (optional if you use built-in default paths)
+- `--patch-size`: patch size for tokenization (default: `28`)
+- `--edge-thr`: Sobel edge threshold (default: `50`)
+- `--ratio-thr`: edge-pixel ratio threshold per patch (default: `0.01`)
 
-To avoid conflicting pruning paths in a single run, enable **one pruning method at a time** in evaluation.
-
-## SFT training scripts
+## 🎯 SFT training scripts
 
 This repo provides supervised fine-tuning (SFT) scripts for all four datasets:
 
@@ -75,15 +87,9 @@ bash scripts/finetune_mind2web.sh
 bash scripts/finetune_odyssey.sh
 ```
 
-Each script includes:
-
-- DeepSpeed training command (`src/training/train.py` or `src/training/train_resize.py`)
-- LoRA-based fine-tuning configuration
-- A post-training LoRA merge step via `src/Qwen2/merge_lora_weights.py`
-
 > Note: Please update paths (e.g., `MODEL_NAME`, `data_path`, `output_dir`, environment-specific deepspeed/python paths) before running on your machine.
 
-## Download datasets
+## 📦 Download datasets
 You need to download and prepare the AITW, Mind2Web, AndroidControl, and Odyssey datasets on your own, and then replace the image paths in the dataset JSON files we provide accordingly.
 
 - AITW & Mind2Web: https://github.com/njucckevin/SeeClick/blob/main/agent_tasks/readme_agent.md
@@ -94,5 +100,5 @@ You need to download and prepare the AITW, Mind2Web, AndroidControl, and Odyssey
 
 - SimpAgent training files: https://huggingface.co/datasets/Minuskid/SimpAgent-data
 
-## Acknowledgement
+## 🙏 Acknowledgement
 We thank the SimpAgent for providing the foundational codebase for our work.
