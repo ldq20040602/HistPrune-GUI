@@ -91,7 +91,9 @@ bash scripts/finetune_odyssey.sh
 
 ## 🤗 Hugging Face released SFT checkpoints
 We have uploaded the SFT checkpoints for **Qwen2VL-2B** and **Qwen2.5VL-3B**, trained on the datasets including AITW, Mind2Web, AndroidControl, and GUIOdyssey, to Hugging Face:
-    https://huggingface.co/lidaiqiang/Token-Pruning-for-GUI-Visual-Agent/tree/main
+
+https://huggingface.co/lidaiqiang/Token-Pruning-for-GUI-Visual-Agent/tree/main
+
 With these pre-trained checkpoints, users can conveniently perform **training-free** inference without extra training efforts.
 
 ## 📦 Download datasets
