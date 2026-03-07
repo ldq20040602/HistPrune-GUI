@@ -89,6 +89,11 @@ bash scripts/finetune_odyssey.sh
 
 > Note: Please update paths (e.g., `MODEL_NAME`, `data_path`, `output_dir`, environment-specific deepspeed/python paths) before running on your machine.
 
+## 🤗 Hugging Face released SFT checkpoints
+We have uploaded the SFT checkpoints for **Qwen2VL-2B** and **Qwen2.5VL-3B**, trained on the datasets including AITW, Mind2Web, AndroidControl, and GUIOdyssey, to Hugging Face:
+    https://huggingface.co/lidaiqiang/Token-Pruning-for-GUI-Visual-Agent/tree/main
+With these pre-trained checkpoints, users can conveniently perform **training-free** inference without extra training efforts.
+
 ## 📦 Download datasets
 You need to download and prepare the AITW, Mind2Web, AndroidControl, and Odyssey datasets on your own, and then replace the image paths in the dataset JSON files we provide accordingly.
 
