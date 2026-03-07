@@ -24,7 +24,7 @@ python -m pip install -r requirements.txt
 
 The main contributions of this repository center on **history-screenshot token pruning during evaluation**.
 
-### 🧪 1) Evaluation scripts extended with pruning controls
+###  1) Evaluation scripts extended with pruning controls
 
 The following evaluation scripts are extended to support pruning historical visual tokens:
 
@@ -49,7 +49,7 @@ All strategies support per-history-image keep ratios (from most recent history i
 
 To avoid conflicting pruning paths in a single run, enable **one pruning method at a time** in evaluation.
 
-### 🧠 2) Model-side pruning implementation
+###  2) Model-side pruning implementation
 
 The pruning logic is implemented in model internals:
 
@@ -58,7 +58,7 @@ The pruning logic is implemented in model internals:
 
 If you want to modify existing pruning methods or add your own pruning strategy, these are the primary files to edit and extend.
 
-### 📊 3) Sobel token statistics utility
+###  3) Sobel token statistics utility
 
 We provide `dataset_sobel_stats.py` to compute **dataset-level Sobel edge-token statistics** across GUI screenshots.
 
@@ -98,7 +98,6 @@ You need to download and prepare the AITW, Mind2Web, AndroidControl, and Odyssey
 
 - Odyssey: https://huggingface.co/datasets/OpenGVLab/GUI-Odyssey
 
-- SimpAgent training files: https://huggingface.co/datasets/Minuskid/SimpAgent-data
 
 ## 🙏 Acknowledgement
 We thank the SimpAgent for providing the foundational codebase for our work.
