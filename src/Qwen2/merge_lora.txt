@@ -1,0 +1,1 @@
+python src/merge_lora_weights.py --model-path /home/wentao/project/Qwen2-VL-Finetune-master/output/baseline_fuxian --model-base /nas_sh/zhouxurui/models/Qwen2-VL --save-model-path models/baseline
