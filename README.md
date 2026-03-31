@@ -1,3 +1,8 @@
+## 🙏 Acknowledgement
+### We are deeply grateful to the **EPIC Lab** for the excellent insights provided in their paper "Token Pruning in Multimodal Large Language Models: Are We Solving the Right Problem?", which has greatly inspired this work.
+
+We thank the SimpAgent for providing the foundational codebase for our work.
+
 ## 📌 Introduction
 
 This repository provides a practical implementation of **token pruning on historical screenshots** for **GUI Visual Agent** tasks, with the goal of **reducing computational cost** during inference/evaluation.  
@@ -104,7 +109,3 @@ You need to download and prepare the AITW, Mind2Web, AndroidControl, and Odyssey
 - AndroidControl: https://github.com/google-research/google-research/tree/master/android_control
 
 - Odyssey: https://huggingface.co/datasets/OpenGVLab/GUI-Odyssey
-
-
-## 🙏 Acknowledgement
-We thank the SimpAgent for providing the foundational codebase for our work.
